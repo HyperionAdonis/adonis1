@@ -1,0 +1,514 @@
+过河问题解决。
+警察 强盗   父亲 母亲 两个女儿 两个儿子
+/*动作类数组 一个文件*/
+package acrossRiver;
+
+public enum ActionName {
+	father_go,
+	mother_go,
+	father_mother_go,
+	father_son_go,
+	mother_daughter_go,
+	police_go,
+	police_son_go,
+	police_daughter_go,
+	police_zuifan_go,
+	father_back,
+	mother_back,
+	father_mother_back,
+	father_son_back,
+	mother_daughter_back,
+	police_back,
+	police_son_back,
+	police_daughter_back,
+	police_zuifan_back,
+}
+/*船的位置 一个文件*/
+package acrossRiver;
+
+public enum BoatLocation{
+	LOCAL,REMOTE;//本地 对岸
+}
+/**/
+package acrossRiver;
+
+/**
+ * 一个文件
+ * @author adonis
+ * 问题模型模拟类
+ */
+public class ItemState
+{
+	int local_father;//本地父亲数量
+	int local_mother;	//本地母亲数量
+	int remote_father;	//对岸父亲数量
+	int remote_mother;	//对岸母亲数量
+	int local_son;//本地儿子数量
+	int local_daughter;//本地女儿数量
+	int remote_son;//对岸儿子数量
+	int remote_daughter;//对岸女儿数量
+	int local_police;//本地警察数量
+	int local_zuifan;//本地罪犯数量
+	int remote_police;//对岸警察数量
+	int remote_zuifan;//对岸罪犯数量
+	BoatLocation boat;//LOCAL,REMOTE
+	int descIndex;
+	public ItemState()
+	{
+		
+	}
+	
+	public ItemState(int local_father,int local_mother,int remote_father,int remote_mother,int local_son,int local_daughter,int remote_son,int remote_daughter,int local_police,int local_zuifan,
+			int remote_police,int remote_zuifan,BoatLocation boat,int descIndex)
+	{
+		this.local_father=local_father;
+		this.local_mother=local_mother;
+		this.remote_father=remote_father;
+		this.remote_mother=remote_mother;
+		this.local_police=local_police;
+		this.local_zuifan=local_zuifan;
+		this.remote_police=remote_police;
+		this.remote_zuifan=remote_zuifan;
+		this.local_son=local_son;
+		this.local_daughter=local_daughter;
+		this.remote_son=remote_son;
+		this.remote_daughter=remote_daughter;
+		this.boat=boat;
+		this.descIndex=descIndex;	
+	}
+	/**
+	 * @param 
+	 *参数：一个状态
+	 *return：判断这个状态是否和自身状态相同
+	 */
+	
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof ItemState)
+		{
+			
+			ItemState state=(ItemState) obj;
+			if (this.local_father==state.local_father&&
+			this.local_mother==state.local_mother&&
+			this.remote_father==state.remote_father&&
+			this.remote_mother==state.remote_mother&&
+			this.local_police==state.local_police&&
+			this.local_zuifan==state.local_zuifan&&
+			this.remote_police==state.remote_police&&
+			this.remote_zuifan==state.remote_zuifan&&
+			this.local_son==state.local_son&&
+			this.local_daughter==state.local_daughter&&
+			this.remote_son==state.remote_son&&
+			this.remote_daughter==state.remote_daughter&&
+			this.boat==state.boat) {
+                return true;
+			}
+		}
+		return false;
+		
+	}
+	public String toString() {
+        return "[" + local_father+ ", " + local_mother + ", " + remote_father
+                + ", " + remote_mother+ "," + local_police+ "," + local_zuifan+ "," + remote_police+ "," + remote_zuifan+ "," + local_son+ "," + local_daughter+
+                "," + remote_son+ ", " + remote_daughter+ "," + boat + "]";
+    }
+
+    public int getDescIndex() {
+        return descIndex;
+    }
+
+    public void setDescInex(int descInex) {
+        this.descIndex = descInex;
+    }
+
+    public int getLocalMother() {
+        return local_mother;
+    }
+
+    public void setLocalMother(int localMother) {
+        this.local_mother = localMother;
+    }
+
+    public int getLocalFather() {
+        return local_father;
+    }
+
+    public void setLocalFather(int localFather) {
+        this.local_father = localFather;
+    }
+
+    public int getRemoteMother() {
+        return remote_mother;
+    }
+
+    public void setRemoteMother(int remoteMather) {
+        this.remote_mother = remoteMather;
+    }
+
+    public int getRemoteFather() {
+        return remote_father;
+    }
+
+    public void setRemoteFather(int remoteFather) {
+        this.remote_father = remoteFather;
+    }
+    public int getRemoteSon() {
+        return remote_son;
+    }
+
+    public void setRemoteSon(int remoteSon) {
+        this.remote_son = remoteSon;
+    }
+
+    public int getRemoteDaughter() {
+        return remote_daughter;
+    }
+
+    public void setRemoteDaughter(int remoteDaughter) {
+        this.remote_father = remoteDaughter;
+    }
+
+    public int getLocalSon() {
+        return local_son;
+    }
+
+    public void setLocalSon(int localSon) {
+        this.local_son = localSon;
+    }
+
+    public int getLocalDaughter() {
+        return local_daughter;
+    }
+
+    public void setLocalDaughter(int localDaughter) {
+        this.local_daughter = localDaughter;
+    }
+
+    public int getLocalPolice() {
+        return local_police;
+    }
+
+    public void setLocalPolice(int localPolice) {
+        this.local_police = localPolice;
+    }
+
+    public int getLocalZuifan() {
+        return local_zuifan;
+    }
+
+    public void setLocalZuifan(int localZuifan) {
+        this.local_zuifan = localZuifan;
+    }
+    public int getRemotePolice() {
+        return remote_police;
+    }
+
+    public void setRemotePolice(int remotePolice) {
+        this.remote_police = remotePolice;
+    }
+
+    public int getRemoteZuifan() {
+        return remote_zuifan;
+    }
+
+    public void setRemoteZuifan(int remoteZuifan) {
+        this.remote_zuifan = remoteZuifan;
+    }
+   
+    public BoatLocation getBoat() {
+        return boat;
+    }
+   
+    public void setBoat(BoatLocation boat) {
+        this.boat = boat;
+    }
+}
+/*一个文件*/
+package acrossRiver;
+import java.util.LinkedList;
+import java.util.List;
+public class StatusChange {
+
+	/**
+	 * 动作数组
+	 * f:爸爸 m：妈妈 s：儿子 d:女儿 p：警察 z：罪犯
+	 */
+	
+		    String actionDesc[] = { "father go", 
+		            "mother go", "father_mother go",
+		            "father_son go", "mother_daughter go",
+		            "police go", "police_son go", "police_daughter go",
+		            "police_zuifan go","father back", 
+		            "mother back", "father_mother back",
+		            "father_son back", "mother_daughter back",
+		            "police back", "police_son back", "police_daughter back",
+		            "police_zuifan back" };
+static int count=1;
+		    
+		    
+		    public static void main(String[] args)
+		    {
+		    	new StatusChange();
+		    }
+		    
+		    
+		    
+		    /**
+		     * 递归解决
+		     * 每次取出list中最后一个元素，进行判断
+		     * 新的状态不重复的添加进List,同时每执行一次，将List中最后一个元素舍弃（因为每次都从最后一个状态进行判断，判断完要取消这个状态）
+		     * List<ItemState> states
+		     * map<key,value>
+		     * 
+		     */
+		    public void processState(List<ItemState> states)
+		    {
+		    	ItemState state=states.get(states.size()-1);//获取list中最后一个元素
+		    	if(state.equals(new ItemState(0,0,1,1,0,0,2,2,0,0,1,1,BoatLocation.REMOTE,-1)))//如果是结束状态则输出list 0,0,1,1,0,0,2,2,0,0,1,1,BoatLocation.REMOTE,-1
+		    	{
+		    		printResult(states);
+		    		states.remove(states.size()-1);//移除最后一个元素
+		    		return;	
+		    	}
+		    	ActionName actions[]=ActionName.values();//动作
+		    	for(int i=0;i<actions.length;i++)
+		    	{
+		    		ItemState itemState=makeActionNewState(states,actions[i]);//执行一个动作之后的新状态
+		    		if(isValidState(states,itemState))//如果未出现过，添加进list
+		    		{
+		    			states.add(itemState);
+		    			processState(states);//对list的最后一个元素执行上述动作
+		    			
+		    		}
+		    		
+		    		
+		    	}
+		    	states.remove(states.size()-1);
+		    	
+		    }
+		    
+		    /**
+		     * 测试
+		     * @param states
+		     * @param actionName
+		     * @return
+		     * 初始化List
+		     */
+		    public StatusChange(){
+		    	ItemState itemState=new ItemState(1,1,0,0,2,2,0,0,1,1,0,0,BoatLocation.LOCAL,-1);//1,1,0,0,2,2,0,0,1,1,0,0,BoatLocation.LOCAL,-1 初始状态
+		    	List<ItemState> states=new LinkedList<ItemState>();
+		    	states.add(itemState);
+		    	processState(states);
+		    
+		    }
+		    
+		    /**
+		     * 
+		     * @param states
+		     * @param actionName
+		     * @return
+		     */
+		    public BoatLocation getBoatLocationByActionName(ActionName actionName) {
+		        if (actionName.ordinal() >= ActionName.father_go.ordinal()
+		                && actionName.ordinal() <= ActionName.police_zuifan_go
+		                        .ordinal()) {
+		            return BoatLocation.REMOTE;
+		        } else {
+		            return BoatLocation.LOCAL;
+		        }
+		    }
+	
+	private ItemState makeActionNewState(List<ItemState> states,
+					ActionName actionName) {
+				// TODO Auto-generated method stub
+		ItemState state = states.get(states.size() - 1);
+        ItemState newState = new ItemState();
+
+        BoatLocation newBoatcation = this
+                .getBoatLocationByActionName(actionName);
+        if (newBoatcation != state.getBoat()) {
+            int father = 0, mother = 0, son=0,daughter=0, police=0,zuifan=0;
+            switch (actionName) {
+            case father_go:
+                father = 1;
+                break;
+            case mother_go:
+                mother = 1;
+                break;
+            case father_mother_go:
+                mother = 1;
+                father=1;
+                break;
+            case father_son_go :
+                father=1;son=1;
+                break;
+            case mother_daughter_go:
+                mother=1;
+                daughter=1;
+                break;
+            case police_go:
+                police=1;
+                break;
+            case police_son_go:
+            	police=1;
+            	son=1;
+            	break;
+            case police_daughter_go:
+                police=1;
+                daughter=1;
+                break;
+            case police_zuifan_go:
+                police=1;
+                zuifan=1;
+                break;
+            case father_back:          
+                father = -1;
+                break;      
+            case mother_back:
+                mother = -1;
+                break;
+            case father_mother_back:
+                mother = -1;
+                father=-1;
+                break;
+            case father_son_back :
+                father=-1;son=-1;
+                break;
+            case mother_daughter_back:
+                mother=-1;
+                daughter=-1;
+                break;
+            case police_back:
+                police=-1;
+                break;
+            case police_son_back:
+            	police=-1;
+            	son=-1;
+            	break;
+            case police_daughter_back:
+                police=-1;
+                daughter=-1;
+                break;
+            case police_zuifan_back:
+                police=-1;
+                zuifan=-1;
+                break;
+            }
+            newState.local_father= state.local_father - father;
+            newState.local_mother = state.local_mother - mother;
+            newState.remote_father = state.remote_father + father;
+            newState.remote_mother = state.remote_mother + mother;
+            newState.local_son=state.local_son-son;
+            newState.local_daughter=state.local_daughter-daughter;
+            newState.remote_son=state.remote_son+son;
+            newState.remote_daughter=state.remote_daughter+daughter;
+            newState.local_police=state.local_police-police;
+            newState.local_zuifan=state.local_zuifan-zuifan;
+            newState.remote_police=state.remote_police+police;
+            newState.remote_zuifan=state.remote_zuifan+zuifan;
+            newState.boat = newBoatcation;
+            newState.descIndex=actionName.ordinal();
+            
+            
+
+            if (riverOnSideValid(newState.local_father, newState.local_mother,newState.local_son,newState.local_daughter,newState.local_police,newState.local_zuifan)) {
+                if (riverOnSideValid(newState.remote_father,newState.remote_mother,newState.remote_son,newState.remote_daughter,newState.remote_police,newState.remote_zuifan)) {
+                    return newState;
+                }
+            }
+
+            return null;
+
+        }
+        return null;
+				
+	}
+	
+/**
+ * 
+ * @param father
+ * @param mother
+ * @param son
+ * @param daughter
+ * @param police
+ * @param zuifan
+ * @return 判断状态是否合法
+ */
+
+
+
+	private boolean riverOnSideValid(int father, int mother,int son,int daughter,int police,int zuifan) {
+		 if (father < 0 || mother < 0||son < 0||daughter < 0||police < 0||zuifan < 0) {
+			 
+	            return false;
+	        }
+		 if(father > 1||mother > 1||son > 2||daughter > 2||police > 1||zuifan > 1)
+		 { return false;}
+		 if((police==0)&&(zuifan==1))
+		 {
+			 if(!((father==0)&&(mother==0)&&(son==0)&&(daughter==0)))
+			 {
+				return false; 
+			 }
+			 
+		 }
+		 if((father==0)&&(mother==1)&&(son>0))
+		 {
+			 return false;
+		 }
+		 if((mother==0)&&(father==1)&&(daughter>0))
+		 {
+			 return false;
+		 }
+		 
+	   return true;
+	}
+	/**
+	 * 是否之前出现过相同的状态，
+	 * @param states
+	 * @param state
+	 * @return 出现过返回false，没出现过返回true
+	 */
+
+	private boolean isValidState(List<ItemState> states,
+					ItemState state) {
+		 if (state != null) {
+	            for (int i = 0; i < states.size(); i++) {
+	                ItemState itemState = states.get(i);
+	                if (state.equals(itemState)) {
+	                    return false;
+	                }
+	            }
+	            return true;
+	        }
+	        return false;
+		}
+
+
+/**
+ * 
+ * 
+ * @param states
+ * 
+ */
+
+	public void printResult(List<ItemState> states) {
+				// TODO Auto-generated method stub
+		 System.out.println("Result " + count++);
+	        for (int i = 0; i < states.size(); i++) {
+	            ItemState state = states.get(i);
+	            int index=state.descIndex;
+	            if(index==-1){
+	            }else{                
+	                System.out.println(actionDesc[state.descIndex]+"  ");                
+	            }
+				
+			}
+	}
+
+	
+		
+	
+	
+}
+
