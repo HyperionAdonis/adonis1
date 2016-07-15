@@ -1,0 +1,58 @@
+SpringMVC原理配置详解：
+  1：在web-INF/lib下引入SpringMVC所需jar包。
+  2：在web-INF下新建一个web.xml文件，进行以下配置
+          <servlet>  
+              <servlet-name>spring</servlet-name>  
+             <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+              <init-param>  
+                  <param-name>contextConfigLocation</param-name>  
+                  <param-value>/WEB-INF/xmlConfig/webConfig.xml</param-value>  
+              </init-param>  
+            <load-on-startup>1</load-on-startup>  
+        </servlet>  
+        <!-- springmvc 请求后缀 -->  
+        <servlet-mapping>  
+            <servlet-name>spring</servlet-name>  
+            <url-pattern>*.do</url-pattern><!-- 拦截所有以.do结尾的请求，交于DispatcherServlet处理 -->  
+        </servlet-mapping>  
+  原理是以DispatcherServlet来拦截所有以.do结尾的请求，当然也可以设置为.action。 
+  3：在web-INF下新建文件夹xmlConfig，里面新建webConfig.xml
+  <?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans       
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">  
+    <!-- 视图解释类  webPage文件夹下存放所有jsp页面 -->     
+    <bean id="viewResolver"  
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="viewClass"   
+        value="org.springframework.web.servlet.view.JstlView"/>  
+        <property name="prefix">  <!--声明jsp文件所在的位置-->
+            <value>/WEB-INF/webPage/</value>  
+        </property>  <!--声明文件名后缀，在java文件中返回时自动添加-->
+        <property name="suffix">  <!-- -->
+            <value>.jsp</value>  
+        </property>  
+    </bean>  
+    <!-- 自动扫描的包名 ,扫描控制层，扫描com.user.action 包，然后对应相应页面的java文件@RequestMapping(value = "/tologin.do")，java文件再返回相应的jsp文件 -->    
+   <context:component-scan base-package="com.user.action"></context:component-scan> 
+      
+</beans> 
+
+4：类中的写法（控制层，控制跳转）
+@Controller  
+//标明这是一个控制层类  
+public class UserAction {  
+    @RequestMapping(value = "/tologin.do")  
+    //响应index.jsp的登录请求  
+    public String login(ModelMap map){    
+        return "/login";  
+    }  
+}  
+  
+    web.xml配置所有请求由DispatcherServlet，并把请求转发到xmlConfig里面所配置的信息。根据配置的信息，找到相应的接受请求处理类。
+            
