@@ -1,0 +1,19 @@
+1):功能上来说是等价的，只是StringBuffer的方法大多都使用了Synchronized关键字修饰，所以是线程安安全的
+2):都继承的是AbstractStringBuilder
+AbstractStringBuilder 的实现原理：
+StringBuilder和StringBuffer为了更好的提高字符串的连接效率
+直接使用+进行字符串链接的话，JVM会创建多个String对象，造成一定的开销
+AbstractStringBuilder 采用一个中间数组的char来保存需要append的字符串，char有一个初始大小
+当append的字符串长度超过char，重新开辟当前数组长度的二倍
+StringBuffer 始于JDK1.0
+StringBuilder 始于JDK1。5
+从JDk1.5带有字符串变量"+"JVM内部采用的都是StringBuilder来实现的
+而之前采用的StringBuffer
+
+
+1):StringBuffer 和StringBuilder对equals
+StringBuffer的equals未重写，比较的是地址
+StringBuilder对equals进行了重写，比较的是内容
+2):StringBuffer 和StringBuilder对toString
+StringBuffer的tostring返回一个包含StringBufffer值得新的String对象
+StringBuilder返回对象本省的引用
