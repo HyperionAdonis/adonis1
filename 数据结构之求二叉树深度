@@ -1,0 +1,36 @@
+void treeMaxDeep(bintree * tree)
+{
+	  int deepLength=0;
+  	int maxLength=0;
+	  treeStack stack;
+  	stack->top=-1;
+  	if(!tree)
+  	{
+	  	printf("the tree is empty");
+	  	deepLength=0;
+  	}
+  	else
+  	{
+	  	while(tree||stack.top!=-1)
+	  	{
+		  	while(tree)
+		  	{
+  				  printf(tree->data);
+  				  push(&stack,tree);
+			      deepLength++;
+				    tree=tree->lchild;
+			    	if(maxLength<deepLength)
+				  	maxLength=deepLength;
+		  	}
+		  	tree=pop(&stack);
+			  deeplength--;
+		  	tree=tree->rchild;
+		  }
+  	}
+
+    	printf(maxLength);
+
+}
+
+
+求二叉树深度
