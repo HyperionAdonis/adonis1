@@ -17,12 +17,12 @@ void treeMaxDeep(bintree * tree)
 		  	{
   				  printf(tree->data);
   				  push(&stack,tree);
-			      deepLength++;
+				     deepLength++;//每一次入栈操作都看作树加深一层
 				    tree=tree->lchild;
 			    	if(maxLength<deepLength)
-				  	maxLength=deepLength;
+				  	maxLength=deepLength;	//maxLength是数最深，也就是入栈最多的时候
 		  	}
-		  	tree=pop(&stack);
+		  	tree=pop(&stack);		//每一次出栈操作都看作树减少一层
 			  deeplength--;
 		  	tree=tree->rchild;
 		  }
