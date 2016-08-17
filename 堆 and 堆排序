@@ -1,1 +1,83 @@
+1：完全二叉树的定义。
+完全二叉树(Complete Binary Tree)：
+若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。
+完全二叉树是由满二叉树而引出来的。对于深度为K的，有N个结点的二叉树，当且仅当其每一个结点都与深度为K的满二叉树中编号从1至n的结点一一
+对应时称之为完全二叉树。（满二叉树就是满二叉树，很好理解）
+若一棵二叉树至多只有最下面的两层上的结点的度数可以小于2，并且最下层上的结点都集中在该层最左边的若干位置上，则此二叉树成为
+完全二叉树。
+2：堆的定义：堆是一种特殊的完全二叉树，所有的父结点都比子结点要小，这样的称为小顶堆，反之，称为大顶堆。
 
+3.堆排序
+
+{：
+#include <iostream>
+#include<algorithm>
+using namespace std;
+void HeapAdjust(int *a,int i,int size)  //调整堆 
+{
+    int lchild=2*i;       //i的左孩子节点序号 
+    int rchild=2*i+1;     //i的右孩子节点序号 
+    int max=i;            //临时变量 
+    if(i<=size/2)          //如果i不是叶节点就不用进行调整 
+    {
+        if(lchild<=size&&a[lchild]>a[max])
+        {
+            max=lchild;
+        }    
+        if(rchild<=size&&a[rchild]>a[max])
+        {
+            max=rchild;
+        }
+        if(max!=i)
+        {
+            swap(a[i],a[max]);
+            HeapAdjust(a,max,size);    //避免调整之后以max为父节点的子树不是堆 
+        }
+    }        
+}
+
+void BuildHeap(int *a,int size)    //建立堆 
+{
+    int i;
+    for(i=size/2;i>=1;i--)    //非叶节点最大序号值为size/2 
+    {
+        HeapAdjust(a,i,size);    
+    }    
+} 
+
+void HeapSort(int *a,int size)    //堆排序 
+{
+    int i;
+    BuildHeap(a,size);
+    for(i=size;i>=1;i--)
+    {
+        //cout<<a[1]<<" ";
+        swap(a[1],a[i]);           //交换堆顶和最后一个元素，即每次将剩余元素中的最大者放到最后面 
+          //BuildHeap(a,i-1);        //将余下元素重新建立为大顶堆 
+          HeapAdjust(a,1,i-1);      //重新调整堆顶节点成为大顶堆
+    }
+} 
+
+int main(int argc, char *argv[])   //测试
+{
+     //int a[]={0,16,20,3,11,17,8};
+    int a[100];
+    int size;
+    while(scanf("%d",&size)==1&&size>0)
+    {
+        int i;
+        for(i=1;i<=size;i++)
+            cin>>a[i];
+        HeapSort(a,size);
+        for(i=1;i<=size;i++)
+            cout<<a[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+
+
+
+      
+        
+        
