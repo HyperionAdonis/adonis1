@@ -1,1 +1,80 @@
 
+package caculator;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.List;
+public class Caculator {
+	String exp="";
+	public static void main(String args[]){
+		String exp="2*3+3*3";
+		Caculator cal=new Caculator();
+		List<String> list=cal.transferExp(exp);
+		System.out.println(list);
+		System.out.println(cal.conclusion(list));
+		
+	}
+	public List<String> transferExp(String exp){
+		List<String> mylist=new ArrayList<String>();
+		Stack<Character> stack=new Stack<Character>();
+		int i=0;
+		while(i<exp.length()){
+			String number="";
+			while(i<exp.length()&&exp.charAt(i)>='0'&&exp.charAt(i)<='9'){
+				number=number+exp.charAt(i);
+				i++;
+			}
+			mylist.add(number);
+			if(i>=exp.length()) break;
+			else{
+				if(exp.charAt(i)=='(')
+					stack.push(exp.charAt(i));
+				else if(exp.charAt(i)==')'){
+					while(!stack.empty()&&stack.peek()!='(')
+						mylist.add(stack.pop()+"");
+					if(!stack.empty()&&stack.peek()=='(')
+						stack.pop();
+				}
+				else{
+					if(!stack.empty()&&compare(exp.charAt(i),stack.peek())) stack.push(exp.charAt(i));
+					else{
+						while(!stack.empty()&&!compare(exp.charAt(i),stack.peek())&&stack.peek()!='('){
+							mylist.add(stack.pop()+"");
+						}
+						stack.push(exp.charAt(i));
+					}
+				}
+			}
+			i++;
+		}
+		while(!stack.empty()) mylist.add(stack.pop()+"");
+		return mylist;
+	}
+	/*检测是否入栈*/
+	public boolean compare(char expI, char stackTop ){
+		if(expI=='*'||expI=='/'){
+			if(stackTop=='+'||stackTop=='-')
+				return true;
+		}
+		return false;
+	}
+	/*计算结果*/
+	public double conclusion(List<String> con){
+		Stack<Double> stc=new Stack<Double>();
+		for(int i=0;i<con.size();i++){
+			if(con.get(i).equals("*")||con.get(i).equals("/")||con.get(i).equals("+")||con.get(i).equals("-")){
+				if(con.get(i).equals("*")) stc.push(stc.pop()*stc.pop());
+				else if(con.get(i).equals("/")) stc.push(stc.pop()/stc.pop());
+				else if(con.get(i).equals("+")) stc.push(stc.pop()+stc.pop());
+				else stc.push(stc.pop()-stc.pop());
+			}
+			else{
+				int number=Integer.valueOf(con.get(i)).intValue();
+				double num=number;
+				System.out.println(num);
+				stc.push(num);
+			}
+		}
+		return stc.pop();
+	}
+
+}
