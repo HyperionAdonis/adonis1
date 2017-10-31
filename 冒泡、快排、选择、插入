@@ -1,0 +1,241 @@
+//插入
+public class InsertSort {
+	
+	private int []val;
+	
+	public boolean setVal(int val[]){
+		if(val.length ==0){
+			System.out.println("ERROR!The str[] is empty!");
+			return false;
+		}	
+		this.val = val;
+		return true;
+	}
+
+	public void insertSort(){
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		if(val.length==1) return;
+		int i,j,k;
+		for(i=1;i<val.length;i++){
+			for(j=i-1;j>=0;j--)
+				if(val[j]<val[i]) break;
+			if(j!=i-1){
+				int temp=val[i];
+				for(k=i;k>j+1;k--){
+					val[k]=val[k-1];
+				}
+				val[k]=temp;
+			}
+		}
+	}
+	
+	public void getVal(){
+		if(val.length==0) {System.out.print("The str[] is empty");return;}
+		for(int i=0;i<val.length;i++)
+			System.out.print(val[i]+" ");
+		System.out.print("\n");
+	}
+
+}
+//选择
+public class ChooseSort {
+
+	private int []val;
+	
+	public boolean setVal(int val[]){
+		if(val.length ==0){
+			System.out.println("ERROR!The str[] is empty!");
+			return false;
+		}	
+		this.val = val;
+		return true;
+	}
+	
+	public void chooseSort(){
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		int min=0;
+		for(int i=0;i<val.length-1;i++){
+			min=val[i];int pos=i;
+			for(int j=i+1;j<val.length;j++){
+				if(min>val[j]){
+					min=val[j];
+					pos=j;
+				}
+			}
+			val[pos]=val[i];
+			val[i]=min;
+		}
+	}
+	
+	public void getVal(){
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		for(int i=0;i<val.length;i++)
+			System.out.print(val[i]+" ");
+		System.out.print("\n");
+	}
+}
+//冒泡
+public class BoolSort {
+	
+	private int []val;
+	
+	public boolean setVal(int val[]){
+		if(val.length ==0){
+			System.out.println("ERROR!The str[] is empty!");
+			return false;
+		}	
+		this.val = val;
+		return true;
+	}
+	
+	public void boolSort(){
+		int temp=0;
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		try{
+			int length=val.length;
+			for(int i=length-1;i>0;i--)
+				for(int j=0;j<i;j++){
+					if(val[j]>val[j+1]){
+						temp=val[j];
+						val[j]=val[j+1];
+						val[j+1]=temp;
+					}
+				}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+			
+		
+	}
+	
+	public void getVal(){
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		for(int i=0;i<val.length;i++)
+			System.out.print(val[i]+" ");
+		System.out.print("\n");
+	}
+	
+}
+//快排
+public class QuickSort {
+	
+	private int[] val;
+	
+	public boolean setVal(int val[]){
+		if(val.length ==0){
+			System.out.println("ERROR!The str[] is empty!");
+			return false;
+		}	
+		this.val = val;
+		return true;
+	}
+	
+	public void quickSort(int start,int end){
+		if(start<end){
+			int low=start;
+			int high=end;
+			int temp=val[low];
+			while(low<high){
+				while(low<high&&val[high]>=temp)
+					--high;
+				val[low]=val[high];
+				while(low<high&&val[low]<=temp)
+					++low;
+				val[high]=val[low];
+			}
+			val[low]=temp;
+			quickSort(start,low-1);
+			quickSort(low+1,end);
+		}
+	}
+	
+	public void quick_sort(){
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		int start=0;
+		int end=val.length-1;
+		quickSort(start,end);
+	}
+
+	public void getVal(){
+		if(val==null) {System.out.print("The str[] is empty");return;}
+		for(int i=0;i<val.length;i++)
+			System.out.print(val[i]+" ");
+		System.out.print("\n");
+	}
+	
+}
+//测试
+public class SortTest {
+	
+	private BoolSort boolSort;
+	
+	private QuickSort quickSort;
+	
+	private ChooseSort chooseSort;
+	
+	@SuppressWarnings("unused")
+	private InsertSort InsertSort;
+	
+	public void setBoolSort(BoolSort boolSort){
+		this.boolSort=boolSort;
+	}
+	
+	public void setQuickSort(QuickSort quickSort){
+		this.quickSort=quickSort;
+	}
+	
+	public void setChooseSort(ChooseSort chooseSort){
+		this.chooseSort=chooseSort;
+	}
+	
+	public void setInsertSort(InsertSort insertSort){
+		this.InsertSort = insertSort;
+	}
+	
+	public static void main(String args[]){
+		SortTest sortTest=new SortTest();
+		BoolSort boolSort=new BoolSort();
+		QuickSort quickSort=new QuickSort();
+		ChooseSort chooseSort=new ChooseSort();
+		InsertSort insertSort=new InsertSort();
+		sortTest.setBoolSort(boolSort);
+		sortTest.setQuickSort(quickSort);
+		sortTest.setChooseSort(chooseSort);
+		sortTest.setInsertSort(insertSort);
+		System.out.println("排序测试Start!");
+		//BoolSort
+		//int val1[]={10,8,19,23,123,423,456,1231,456,234,10,19,234295,43566,123423};
+		int val1[]={1};
+		//int val1[]={};
+		System.out.println("冒泡排序测试");
+		sortTest.boolSort.setVal(val1);
+		sortTest.boolSort.boolSort();
+		sortTest.boolSort.getVal();
+		//QuickSort
+		int val2[]={10,8,19,23,123,423,456,1231,456,234,10,19,234295,43566,123423};
+		//int val2[]={1};
+		//int val2[]={};
+		System.out.println("快速排序测试");
+		sortTest.quickSort.setVal(val2);
+		sortTest.quickSort.quick_sort();
+		sortTest.quickSort.getVal();
+		//ChooseSort
+		//int val3[]={10,8,19,23,123,423,456,1231,456,234,10,19,234295,43566,123423};
+		//int val3[]={1};
+		int val3[]={};
+		System.out.println("选择排序测试");
+		sortTest.chooseSort.setVal(val3);
+		sortTest.chooseSort.chooseSort();
+		sortTest.chooseSort.getVal();
+		//InsertSort
+		//int val4[]={10,8,19,23,123,423,456,1231,456,234,10,19,234295,43566,123423};
+		//int val4[]={1};
+		int val4[]={};
+		System.out.println("插入排序测试");
+		sortTest.chooseSort.setVal(val4);
+		sortTest.chooseSort.chooseSort();
+		sortTest.chooseSort.getVal();
+	}
+	
+}
+
